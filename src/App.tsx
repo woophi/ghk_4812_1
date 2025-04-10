@@ -179,6 +179,15 @@ export const App = () => {
 
           <Swiper style={{ marginLeft: '0' }} spaceBetween={8} slidesPerView="auto">
             <SwiperSlide
+              onClick={() => setDeliveryType('Кредитный счет')}
+              className={appSt.swSlide({
+                selected: deliveryType === 'Кредитный счет',
+              })}
+            >
+              <span>Кредитный счет</span>
+              <span>Моментально</span>
+            </SwiperSlide>
+            <SwiperSlide
               onClick={() => setDeliveryType('По адресу')}
               className={appSt.swSlide({
                 selected: deliveryType === 'По адресу',
@@ -195,15 +204,6 @@ export const App = () => {
             >
               <span>В офис банка</span>
               <span>Сегодня</span>
-            </SwiperSlide>
-            <SwiperSlide
-              onClick={() => setDeliveryType('Кредитный счет')}
-              className={appSt.swSlide({
-                selected: deliveryType === 'Кредитный счет',
-              })}
-            >
-              <span>Кредитный счет</span>
-              <span>Моментально</span>
             </SwiperSlide>
           </Swiper>
 
