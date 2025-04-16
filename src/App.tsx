@@ -32,18 +32,18 @@ export const App = () => {
   const [day, setDay] = useState('Сегодня');
   const [time, setTime] = useState('');
   const [credit, setCredit] = useState(150_000);
+  const [creditError, setCreditError] = useState('');
   const [isTimeError, setIsTimeError] = useState(false);
   const [details, setDetails] = useState('');
   const [thx, setThx] = useState(LS.getItem(LSKeys.ShowThx, false));
 
-  const handleBlurInputCredit = () => {
-    if (credit < creditConstants.min) {
-      setCredit(creditConstants.min);
-      return;
-    }
-    if (credit > creditConstants.max) {
-      setCredit(creditConstants.max);
-      return;
+  const handleInputCredit = (value: number | null) => {
+    const newValue = value ?? 0;
+    setCredit(newValue);
+    if (newValue < creditConstants.min || newValue > creditConstants.max) {
+      setCreditError('Введите сумму от 10 000 до 1 000 000 ₽');
+    } else {
+      setCreditError('');
     }
   };
 
@@ -161,9 +161,9 @@ export const App = () => {
             block
             size={48}
             hint="От 10 000 ₽ до 1 000 000 ₽"
-            onChange={(_, { value }) => setCredit(value ?? 0)}
+            onChange={(_, { value }) => handleInputCredit(value)}
             minority={1}
-            onBlur={handleBlurInputCredit}
+            error={creditError}
           />
         </div>
       )}
@@ -471,7 +471,16 @@ export const App = () => {
 
       {step === 1 && (
         <div className={appSt.bottomBtnThx}>
-          <ButtonMobile onClick={() => setStep(2)} block view="primary">
+          <ButtonMobile
+            onClick={() => {
+              if (creditError) {
+                return;
+              }
+              setStep(2);
+            }}
+            block
+            view="primary"
+          >
             Продолжить
           </ButtonMobile>
         </div>
